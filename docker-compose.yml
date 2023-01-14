@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  db:
+    image: mysql/mysql-server:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'roadmaps'
+      MYSQL_USER: 'anwar'
+      MYSQL_PASSWORD: 'anwar2007'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - my-db:/var/lib/mysql
+volumes:
+  my-db:
