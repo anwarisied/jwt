@@ -20,14 +20,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(Long Id) {
-        // TODO Auto-generated method stub
-        return null;
+        Optional<User> user = userRepository.findById(Id);
+        return unwrapUser(user, Id);
     }
 
     @Override
     public User saveUser(User user) {
-        // TODO Auto-generated method stub
-        return null;
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
     }
 
     static User unwrapUser(Optional<User> entity, Long id) {
