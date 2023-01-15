@@ -1,5 +1,6 @@
 package com.rm.roadmaps.security;
 
+import com.rm.roadmaps.security.filter.BeforeAuthentication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -24,7 +25,8 @@ public class SecurityConfig {
                                 .anyRequest()
                                 // Any other requests need be authenticated
                                 .authenticated()
-                                .and().addFilter(authenticationFilter))
+                                .and().addFilterBefore(new BeforeAuthentication(),AuthenticationFilter.class)
+                                .addFilter(authenticationFilter))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         ;
