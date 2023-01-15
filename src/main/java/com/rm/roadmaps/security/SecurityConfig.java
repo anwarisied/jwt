@@ -11,7 +11,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable().cors().disable()
+                .csrf().disable()
                 .authorizeHttpRequests(
                         (authz) -> authz
                                 .requestMatchers(HttpMethod.POST, SecurityConstants.REGISTER_PATH)
