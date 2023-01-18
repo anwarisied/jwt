@@ -1,6 +1,7 @@
 package com.rm.roadmaps.security;
 
 import com.rm.roadmaps.security.filter.ExceptionHandlerFilter;
+import com.rm.roadmaps.security.filter.JWTAuthenticationFilter;
 import com.rm.roadmaps.security.manager.CustomAuthenticationManager;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +17,10 @@ import com.rm.roadmaps.security.filter.AuthenticationFilter;
 @AllArgsConstructor
 public class SecurityConfig {
     CustomAuthenticationManager customAuthenticationManager;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        AuthenticationFilter authenticationFilter=new AuthenticationFilter(customAuthenticationManager);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(customAuthenticationManager);
         authenticationFilter.setFilterProcessesUrl("/authenticate");
         http
                 .csrf().disable()
@@ -29,9 +31,9 @@ public class SecurityConfig {
                                 .anyRequest()
                                 // Any other requests need be authenticated
                                 .authenticated()
-                                .and().addFilterBefore(new ExceptionHandlerFilter(),AuthenticationFilter.class)
+                                .and().addFilterBefore(new ExceptionHandlerFilter(), AuthenticationFilter.class)
                                 .addFilter(authenticationFilter)
-                )
+                                .addFilterAfter(new JWTAuthenticationFilter(), AuthenticationFilter.class))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
         ;

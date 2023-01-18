@@ -16,12 +16,13 @@ import org.springframework.stereotype.Component;
 public class CustomAuthenticationManager implements AuthenticationManager {
     private UserService userService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        User user=userService.getUser(authentication.getName());
-        if(!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())){
-            throw new BadCredentialsException("Wrong password!");
+        User user = userService.getUser(authentication.getName());
+        if (!bCryptPasswordEncoder.matches(authentication.getCredentials().toString(), user.getPassword())) {
+            throw new BadCredentialsException("Incorrect password!");
         }
-        return new UsernamePasswordAuthenticationToken(authentication.getName(),authentication.getCredentials());
+        return new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials());
     }
 }
